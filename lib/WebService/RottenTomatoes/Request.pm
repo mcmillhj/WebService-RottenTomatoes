@@ -5,11 +5,16 @@ use warnings;
 
 use Moo::Role; 
 use Carp qw(confess);
-use Data::Dumper; 
 use HTTP::Tiny; 
 use URI::Escape;
 
 with 'WebService::RottenTomatoes::JSON';
+
+=attr user_agent 
+
+A user agent object. Default is L<HTTP::Tiny>
+
+=cut
 
 has 'user_agent' => (
    is      => 'ro',
@@ -22,11 +27,27 @@ has 'user_agent' => (
    },
 );
 
+=attr user_agent 
+
+API endpoint against which HTTP requests are sent. 
+Default is 'http://api.rottentomatoes.com/api/public/v1.0/movies.json?'
+
+=cut
+
 has 'base_url' => (
    is      => 'ro',
    lazy    => 1,
    default => sub { 'http://api.rottentomatoes.com/api/public/v1.0/movies.json?' },
 );
+
+=method request 
+
+Retrieves JSON encoded data from Rotten Tomatoes about the movie
+specified in $query. 
+
+Currently returns ONLY a single result.
+
+=cut
 
 sub request {
    my ($self, $query) = @_;
@@ -42,6 +63,12 @@ sub request {
       . "(" . $response->{status} . ")"
       . " - " . $response->{content}
 }
+
+=method _build_url 
+
+Forms a vaild Rotten Tomatoes URL given a search query
+
+=cut
 
 sub _build_url {
    my ($self, $query) = @_;
