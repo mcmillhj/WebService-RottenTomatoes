@@ -45,7 +45,7 @@ has 'base_url' => (
 Retrieves JSON encoded data from Rotten Tomatoes about the movie
 specified in $query. 
 
-Currently returns ONLY a single result.
+Currently returns ONLY three results.
 
 =cut
 
@@ -78,7 +78,7 @@ sub _build_url {
       return $self->base_url 
          . "apikey=$api_key" 
          . "&q=" . uri_escape($query) 
-         . '&page_limit=1';
+         . '&page_limit=3';
    }
 
    confess 'Unable to find Rotten Tomatoes API key in environment. '

@@ -7,4 +7,4 @@ use Data::Dumper;
 use WebService::RottenTomatoes; 
 
 my $service = WebService::RottenTomatoes->new;
-print Dumper $service->get_ratings('the avengers');
+print Dumper $service->search('the avengers');

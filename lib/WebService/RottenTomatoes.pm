@@ -4,6 +4,7 @@ use Moo;
 use namespace::clean;
 use Carp qw(confess);
 use Memoize qw(memoize);
+use WebService::RottenTomatoes::Movie;
 
 with 'WebService::RottenTomatoes::Request';
 
@@ -16,8 +17,11 @@ Searchs for the movie(s) specified in the query string $query
 memoize 'search';
 sub search {
    my ($self, $query) = @_;
-
-   return $self->request($query);
+   
+   return map {  
+      WebService::RottenTomatoes::Movie->new($_) 
+   } @{ $self->request($query)->{movies} };
 }
+
 
 1;
